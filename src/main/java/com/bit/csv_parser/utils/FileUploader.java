@@ -8,7 +8,7 @@ import java.nio.file.Path;
 
 public class FileUploader {
 
-    final static String PATH = "./players.csv";
+    public final static String PATH = "./players.csv";
     public static String TYPE = "csv";
 
 
