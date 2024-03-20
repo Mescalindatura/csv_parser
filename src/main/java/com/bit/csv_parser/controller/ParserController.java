@@ -13,8 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 
 @RestController
 @RequiredArgsConstructor
@@ -22,21 +21,26 @@ import java.io.ByteArrayOutputStream;
 public class ParserController {
 
     final ParserService service;
+    final static String FILENAME = "fetched_players.csv";
 
-    @PostMapping("/upload")
-    public ResponseEntity<Resource> uploadCSV(@RequestParam("file") MultipartFile file) {
-        if (file.isEmpty()) {
-            return new ResponseEntity<>("Please select a file to upload", HttpStatus.BAD_REQUEST);
+    @PostMapping("/players")
+    public ResponseEntity<Resource> uploadCSV(@RequestParam("file") MultipartFile file) throws IOException {
+        if (file.isEmpty() || !service.uploadCSV(file)) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-         String filename = "updated_players.csv";
-    InputStreamResource file = new InputStreamResource(service.parseCSV());
-
-    return ResponseEntity.ok()
-        .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + filename)
-        .contentType(MediaType.parseMediaType("application/csv"))
-        .body(file);
+        InputStreamResource newFile = new InputStreamResource(service.parseCSV());
+        return ResponseEntity.ok()
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + FILENAME)
+                    .contentType(MediaType.parseMediaType("application/csv"))
+                    .body(newFile);
     }
 
-    @GetMapping
-
+    @GetMapping ("/player")
+    public ResponseEntity<Resource> downloadCSV() {
+        InputStreamResource file = new InputStreamResource(service.parseCSV());
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + FILENAME)
+                .contentType(MediaType.parseMediaType("application/csv"))
+                .body(file);
+    }
 }

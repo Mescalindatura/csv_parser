@@ -10,7 +10,7 @@ import java.util.List;
 
 public class CSVWriter {
 
-    static final String TABLE_HEADER = "id,fullName,position,height,weight,jersey_number,college,country,draft_year,draft_round,draft_number,teamFullName,teamConference,teamDivision";
+    static final String TABLE_HEADER = "id,first_name,last_name,position,height,weight,jersey_number,college,country,draft_year,draft_round,draft_number,teamFullName,teamConference,teamDivision";
     public static ByteArrayInputStream playersToCSV(List<Player> players) {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         try (OutputStreamWriter writer = new OutputStreamWriter(outputStream)) {

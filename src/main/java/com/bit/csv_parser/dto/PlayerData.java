@@ -19,4 +19,9 @@ public class PlayerData {
     private int draft_number;
     private TeamData team;
 
+    public PlayerData(int id, String name) {
+        this.id = id;
+        this.first_name = name;
+
+    }
 }

@@ -1,11 +1,13 @@
 package com.bit.csv_parser.utils;
 
 import com.bit.csv_parser.dto.PlayerFromFile;
+import com.bit.csv_parser.exception.DataFormatIsNotCorrect;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.zip.DataFormatException;
 
 public class CSVReader {
 
@@ -23,7 +25,7 @@ public class CSVReader {
                 }
             }
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new DataFormatIsNotCorrect(e.getMessage());
         }
         return players;
     }

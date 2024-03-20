@@ -9,14 +9,14 @@ import java.nio.file.Path;
 public class FileUploader {
 
     public final static String PATH = "./players.csv";
-    public static String TYPE = "csv";
+    public static String TYPE = "text/csv";
 
 
-    public void save(MultipartFile file) throws IOException {
-        if (hasCSVFormat(file)) {
+    public static void save(MultipartFile file) throws IOException {
+
             byte[] bytes = file.getBytes();
             Files.write(Path.of(PATH), bytes);
-        }
+
     }
 
     public static boolean hasCSVFormat(MultipartFile file) {
